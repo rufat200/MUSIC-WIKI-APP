@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Groups{% endblock %}
+
+{% block content %}
+
+<style>
+    .group-item {
+        background-color: #333;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        text-align: center;
+        width: 300px;
+        color: white;
+    }
+
+    .group-item img {
+        max-width: 100%;
+        border-radius: 5px;
+    }
+    .details-button {
+        text-decoration: none;
+        color: #ddd;
+    }
+    .details-button:hover {
+        color: chartreuse;
+    }
+</style>
+
+<h1>Все группы</h1>
+<div class="container">
+    {% for group in groups %}
+    <div class="group-item">
+        <img src="{{ group.logo.url }}" alt="Group Logo">
+        <h3>{{ group.title }}</h3>
+        <p>{{ group.description|truncatewords:5 }}</p>
+        <a href="{% url 'group_detail' group.id %}" class="details-button"><h4>Подробнее</h4></a>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

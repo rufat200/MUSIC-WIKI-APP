@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<style>
+    .group-item, .album-item, .song-item {
+        background-color: #333;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        text-align: center;
+        width: 300px;
+        color: white;
+    }
+
+    .group-item img, .album-item img {
+        max-width: 100%;
+        border-radius: 5px;
+    }
+    .details-button {
+        text-decoration: none;
+        color: #ddd;
+    }
+    .details-button:hover {
+        color: chartreuse;
+    }
+
+    .lists-button {
+        text-decoration: none;
+        color: black;
+        font-size: 20px;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+    .lists-button:hover {
+        color: crimson;
+    }
+
+</style>
+
+<h1>Добро пожаловать в Music App!</h1>
+            
+<section class="latest">
+    <h2>Последние добавленные группы</h2>
+    {% if groups %}
+    <div class="group-list">
+        <!-- Здесь будут отображаться группы -->
+        {% for group in groups %}
+        <div class="group-item">
+            <img src="{{ group.logo.url }}" alt="Group Logo">
+            <h3>{{ group.title }}</h3>
+            <p>{{ group.description|truncatewords:5 }}</p>
+            <span style="font-style:oblique;">{{ group.date|date:"j F, Y" }}</span>
+            <a href="{% url 'group_detail' group.id %}" class="details-button"><h4>Подробнее</h4></a>
+        </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'groups' %}" class="lists-button"">Смотреть группы</a>
+    {% else %}
+    <p>Групп пока нет. Добавьте их!</p>
+    {% endif %}
+</section>
+
+<section class="latest">
+    <h2>Последние добавленные альбомы</h2>
+    <div class="album-list">
+        <!-- Здесь будут отображаться альбомы -->
+        {% for album in albums %}
+        <div class="album-item">
+            <img  src="{{ album.cover.url }}" alt="Album Cover">
+            <h3>{{ album.title }}</h3>
+            <p>{{ album.description|truncatewords:5 }}</p>
+            <span style="font-style:oblique;">{{ album.date|date:"j F, Y" }}</span>
+            <a href="{% url 'album_detail' album.id %}" class="details-button"><h4>Детали альбома</h4></a>
+        </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'albums' %}" class="lists-button">Смотреть альбомы</a>
+</section>
+
+<section class="latest">
+    <h2>Последние добавленные песни</h2>
+    <div class="song-list">
+        {% for song in songs %}
+        <div class="song-item">
+            <h3>{{ song.title }}</h3>
+            <audio controls>
+                <source src="{{ song.file.url }}" type="audio/mpeg">
+                Ваш браузер не поддерживает воспроизведение аудио.
+            </audio>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
